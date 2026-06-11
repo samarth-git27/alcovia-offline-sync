@@ -20,6 +20,9 @@ from "./src/pages/SyncDashboard";
 import DeviceSimulator
 from "./src/pages/DeviceSimulator";
 
+import NotificationPanel
+from "./src/pages/NotificationPanel";
+
 export default function App() {
 
   return (
@@ -41,6 +44,8 @@ export default function App() {
         <SyncDashboard />
 
         <DeviceSimulator />
+
+        <NotificationPanel />
 
       </ScrollView>
 

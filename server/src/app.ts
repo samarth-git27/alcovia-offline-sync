@@ -1,11 +1,23 @@
 import express from "express";
 import cors from "cors";
 
-import syncRoutes from "./routes/sync.routes";
-import focusRoutes from "./routes/focus.routes";
-import syllabusRoutes from "./routes/syllabus.routes";
-import queueRoutes from "./routes/queue.routes";
-import deviceRoutes from "./routes/device.routes";
+import focusRoutes
+from "./routes/focus.routes";
+
+import syllabusRoutes
+from "./routes/syllabus.routes";
+
+import syncRoutes
+from "./routes/sync.routes";
+
+import queueRoutes
+from "./routes/queue.routes";
+
+import deviceRoutes
+from "./routes/device.routes";
+
+import notificationRoutes
+from "./routes/notification.routes";
 
 const app = express();
 
@@ -13,22 +25,45 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use("/api", syncRoutes);
+app.get(
+  "/",
+  (req, res) => {
 
-app.use("/api", focusRoutes);
+    res.json({
+      message:
+        "Alcovia Offline Sync Backend Running"
+    });
+  }
+);
 
-app.use("/api", syllabusRoutes);
+app.use(
+  "/api",
+  focusRoutes
+);
 
-app.use("/api", queueRoutes);
+app.use(
+  "/api",
+  syllabusRoutes
+);
 
-app.use("/api", deviceRoutes);
+app.use(
+  "/api",
+  syncRoutes
+);
 
-app.get("/", (req, res) => {
+app.use(
+  "/api",
+  queueRoutes
+);
 
-  res.json({
-    message:
-      "Alcovia Offline Sync Backend Running"
-  });
-});
+app.use(
+  "/api",
+  deviceRoutes
+);
+
+app.use(
+  "/api",
+  notificationRoutes
+);
 
 export default app;
