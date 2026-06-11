@@ -13,4 +13,6 @@ export interface TaskModel {
   lamportClock: number;
 
   deviceId: string;
+
+  updatedAt: string;
 }

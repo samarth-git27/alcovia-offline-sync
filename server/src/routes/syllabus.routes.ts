@@ -28,6 +28,27 @@ router.post(
   }
 );
 
+router.post(
+  "/tasks/delete",
+  (req, res) => {
+
+    const {
+      taskId,
+      deviceId,
+      lamportClock
+    } = req.body;
+
+    const task =
+      SyllabusService.deleteTask(
+        taskId,
+        deviceId,
+        lamportClock
+      );
+
+    res.json(task);
+  }
+);
+
 router.get(
   "/subjects/:id/progress",
   (req, res) => {

@@ -37,9 +37,58 @@ export class SyllabusService {
     task.lamportClock =
       lamportClock;
 
+    task.updatedAt =
+      new Date().toISOString();
+
     const event =
       EventFactory.create(
         "TASK_UPDATED",
+        task,
+        deviceId
+      );
+
+    EventStore.append(
+      event
+    );
+
+    OfflineQueue.enqueue(
+      event
+    );
+
+    return task;
+  }
+
+  static deleteTask(
+    taskId: string,
+    deviceId: string,
+    lamportClock: number
+  ) {
+
+    const task =
+      db.tasks.find(
+        t => t.id === taskId
+      );
+
+    if (!task) {
+      throw new Error(
+        "Task not found"
+      );
+    }
+
+    task.deleted = true;
+
+    task.deviceId =
+      deviceId;
+
+    task.lamportClock =
+      lamportClock;
+
+    task.updatedAt =
+      new Date().toISOString();
+
+    const event =
+      EventFactory.create(
+        "TASK_DELETED",
         task,
         deviceId
       );
@@ -91,7 +140,10 @@ export class SyllabusService {
                   t.id === taskId
               );
 
-            if (!task) {
+            if (
+              !task ||
+              task.deleted
+            ) {
               return;
             }
 

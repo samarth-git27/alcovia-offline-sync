@@ -25,7 +25,9 @@ db.tasks.push(
     status: "NOT_STARTED",
     deleted: false,
     lamportClock: 0,
-    deviceId: "seed"
+    deviceId: "seed",
+    updatedAt:
+      new Date().toISOString()
   },
   {
     id: "task-2",
@@ -33,7 +35,9 @@ db.tasks.push(
     status: "NOT_STARTED",
     deleted: false,
     lamportClock: 0,
-    deviceId: "seed"
+    deviceId: "seed",
+    updatedAt:
+      new Date().toISOString()
   }
 );
 
