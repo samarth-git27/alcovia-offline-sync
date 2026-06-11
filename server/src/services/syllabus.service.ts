@@ -1,5 +1,11 @@
 import { db } from "../storage/database";
 
+import { EventFactory } from "../events/event-factory";
+
+import { EventStore } from "../events/event-store";
+
+import { OfflineQueue } from "../queue/offline-queue";
+
 export class SyllabusService {
 
   static updateTaskStatus(
@@ -30,6 +36,21 @@ export class SyllabusService {
 
     task.lamportClock =
       lamportClock;
+
+    const event =
+      EventFactory.create(
+        "TASK_UPDATED",
+        task,
+        deviceId
+      );
+
+    EventStore.append(
+      event
+    );
+
+    OfflineQueue.enqueue(
+      event
+    );
 
     return task;
   }
@@ -94,9 +115,10 @@ export class SyllabusService {
     }
 
     return Math.round(
-      (completedTasks /
-        totalTasks) *
-      100
+      (
+        completedTasks /
+        totalTasks
+      ) * 100
     );
   }
 }

@@ -8,6 +8,8 @@ import { EventStore } from "../events/event-store";
 
 import { EventFactory } from "../events/event-factory";
 
+import { OfflineQueue } from "../queue/offline-queue";
+
 export class FocusService {
 
   static completeSession(
@@ -25,8 +27,7 @@ export class FocusService {
 
       deviceId,
 
-      targetMinutes:
-        durationMinutes,
+      targetMinutes: durationMinutes,
 
       status: "COMPLETED" as const,
 
@@ -49,6 +50,10 @@ export class FocusService {
       );
 
     EventStore.append(
+      event
+    );
+
+    OfflineQueue.enqueue(
       event
     );
 
@@ -98,6 +103,10 @@ export class FocusService {
       );
 
     EventStore.append(
+      event
+    );
+
+    OfflineQueue.enqueue(
       event
     );
 
