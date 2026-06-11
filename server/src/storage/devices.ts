@@ -1,10 +1,12 @@
 export const devices = {
 
   "device-a": {
-    online: true
+    online: true,
+    lastSyncEventIndex: 0
   },
 
   "device-b": {
-    online: true
+    online: true,
+    lastSyncEventIndex: 0
   }
 };

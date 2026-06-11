@@ -1,14 +1,18 @@
 import { EventStore } from "../events/event-store";
 import { EventModel } from "../models/event.model";
 import { db } from "../storage/database";
+import { devices } from "../storage/devices";
 
 export class SyncEngine {
 
   static processEvents(
-    events: EventModel[]
+    deviceId: string,
+    incomingEvents: EventModel[]
   ) {
 
-    for (const event of events) {
+    const acceptedEvents: EventModel[] = [];
+
+    for (const event of incomingEvents) {
 
       if (
         EventStore.hasProcessed(
@@ -23,11 +27,32 @@ export class SyncEngine {
       EventStore.markProcessed(
         event.id
       );
+
+      acceptedEvents.push(event);
     }
 
+    const device =
+      devices[
+        deviceId as keyof typeof devices
+      ];
+
+    const missingEvents =
+      db.events.slice(
+        device.lastSyncEventIndex
+      );
+
+    device.lastSyncEventIndex =
+      db.events.length;
+
     return {
+
       success: true,
-      processedEvents:
+
+      acceptedEvents,
+
+      missingEvents,
+
+      totalEvents:
         db.events.length
     };
   }
