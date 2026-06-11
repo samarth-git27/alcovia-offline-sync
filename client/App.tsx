@@ -14,6 +14,12 @@ from "./src/features/focus/FocusPage";
 import SyllabusPage
 from "./src/features/syllabus/SyllabusPage";
 
+import SyncDashboard
+from "./src/pages/SyncDashboard";
+
+import DeviceSimulator
+from "./src/pages/DeviceSimulator";
+
 export default function App() {
 
   return (
@@ -31,6 +37,10 @@ export default function App() {
         <FocusPage />
 
         <SyllabusPage />
+
+        <SyncDashboard />
+
+        <DeviceSimulator />
 
       </ScrollView>
 
